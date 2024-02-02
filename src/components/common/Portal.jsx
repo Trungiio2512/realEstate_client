@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-
-// eslint-disable-next-line react/prop-types
+import PropTypes from "prop-types";
 function Portal({ children, containerId }) {
   const [wrapper, setWrapper] = useState();
   useEffect(() => {
@@ -23,4 +22,8 @@ function Portal({ children, containerId }) {
   return ReactDOM.createPortal(children, wrapper);
 }
 
+Portal.propTypes = {
+  children: PropTypes.element.isRequired,
+  containerId: PropTypes.string,
+};
 export default Portal;

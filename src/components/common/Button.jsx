@@ -53,7 +53,7 @@ const Button = forwardRef(
         ref={ref}
         className={twMerge(
           clsx(
-            "p-2 text-sm rounded-md border border-transparent bg-transparent outline-none cursor-pointer ",
+            "p-2 text-sm `rounded-md border border-transparent bg-transparent outline-none cursor-pointer ",
             className,
             type1 && "bg-main-500 text-white",
             type2 && "bg-white text-main-500",

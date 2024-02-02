@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
 import { useRef, useState, useEffect, useCallback } from "react";
-
+import PropTypes from "prop-types";
 import Portal from "./Portal";
 import Button from "./Button";
 import { IoClose } from "react-icons/io5";
@@ -67,5 +66,13 @@ function Modal({
     </Portal>
   );
 }
+
+Modal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  shouldCloseOverlayClick: PropTypes.bool,
+  children: PropTypes.element.isRequired,
+  id: PropTypes.string,
+  onRequestClose: PropTypes.func,
+};
 
 export default Modal;
