@@ -2,13 +2,17 @@
 import { Link, NavLink } from "react-router-dom";
 import logoLight from "../../assets/logo_white.png";
 import logoColor from "../../assets/logo_color.png";
-import { Button } from "@/components";
-import { navigations } from "@/utils/constants";
+import { Button, Login, Modal } from "@/components";
+import { TYPE_SIGN_LOGIN, navigations } from "@/utils/constants";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import WithRoute from "@/hocs/withRoute";
+import { useAppStore } from "@/store/useAppStore";
+import { useUserStore } from "@/store/useUserStore";
+
 const Navigation = WithRoute(({ location }) => {
-  console.log(location);
+  const { isOpen, setOpen, setTypeSignLogin } = useAppStore();
+  const { token } = useUserStore();
   return (
     <nav
       className={twMerge(
@@ -43,7 +47,31 @@ const Navigation = WithRoute(({ location }) => {
               </NavLink>
             );
           })}
-        <Button type3>Add Listing</Button>
+        {token ? (
+          <Button
+            onClick={() => {
+              setTypeSignLogin(TYPE_SIGN_LOGIN.SIGNIN);
+              setOpen(!isOpen);
+            }}
+            type3={location?.pathname === "/"}
+            type1={location?.pathname !== "/"}>
+            Sign In
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              setTypeSignLogin(TYPE_SIGN_LOGIN.LOGIN);
+              setOpen(!isOpen);
+            }}
+            type3={location?.pathname === "/"}
+            type1={location?.pathname !== "/"}>
+            Login
+          </Button>
+        )}
+
+        <Modal isOpen={isOpen} onRequestClose={() => setOpen(!isOpen)}>
+          <Login />
+        </Modal>
       </div>
     </nav>
   );
