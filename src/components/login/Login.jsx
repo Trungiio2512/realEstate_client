@@ -1,14 +1,17 @@
+import { loginApi, registerApi } from "@/apis/auth";
 import { Button, InputForm } from "@/components";
 import { useAppStore } from "@/store/useAppStore";
 import { TYPE_SIGN_LOGIN } from "@/utils/constants";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 const Login = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
+  const password = useRef({});
   const { typeSignLogin, setTypeSignLogin } = useAppStore();
   const handleChangeType = (type) => {
     if (typeSignLogin === type) {
@@ -18,8 +21,16 @@ const Login = () => {
     }
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
+    if (typeSignLogin === TYPE_SIGN_LOGIN.LOGIN) {
+      const res = await loginApi(data);
+      console.log(res);
+    }
+    if (typeSignLogin === TYPE_SIGN_LOGIN.REGISTER) {
+      // const res = await registerApi(data);
+      // console.log(res);
+    }
   };
 
   console.log(typeSignLogin);
@@ -27,9 +38,8 @@ const Login = () => {
   useEffect(() => {
     // reset();
     //!reset value
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [typeSignLogin]);
-
+  password.current = watch("password", "");
   return (
     <div className="bg-transparent flex items-center flex-col gap-5">
       <h1 className="capitalize text-xl font-medium text-main-500 w-full text-center">
@@ -42,8 +52,8 @@ const Login = () => {
           Login
         </Button>
         <Button
-          type1={typeSignLogin === TYPE_SIGN_LOGIN.SIGNIN}
-          onHanldeClick={() => handleChangeType(TYPE_SIGN_LOGIN.SIGNIN)}>
+          type1={typeSignLogin === TYPE_SIGN_LOGIN.REGISTER}
+          onHanldeClick={() => handleChangeType(TYPE_SIGN_LOGIN.REGISTER)}>
           Create New Account
         </Button>
       </div>
@@ -54,7 +64,13 @@ const Login = () => {
           label="Phone number"
           placeholder="Plese enter your phone number "
           type="text"
-          validate={{ required: "You must enter phone number" }}
+          validate={{
+            required: "You must enter phone number",
+            pattern: {
+              value: /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/,
+              message: "Your phone number is not correct",
+            },
+          }}
           error={errors?.phone?.message}
         />
         <InputForm
@@ -63,19 +79,34 @@ const Login = () => {
           label="Password"
           placeholder="Plese enter your password "
           type="password"
-          validate={{ required: "You must enter your password" }}
+          validate={{ required: "Please enter your password" }}
           error={errors?.password?.message}
         />
-        {typeSignLogin === TYPE_SIGN_LOGIN.SIGNIN && (
-          <InputForm
-            register={register}
-            id="fullname"
-            label="Your fullname"
-            placeholder="Plese enter your fullname "
-            type="text"
-            validate={{ required: "You must enter your fullname" }}
-            error={errors?.fullname?.message}
-          />
+
+        {typeSignLogin === TYPE_SIGN_LOGIN.REGISTER && (
+          <>
+            <InputForm
+              register={register}
+              id="confirmPassword"
+              label="Confirm password"
+              placeholder="Plese confirm your password "
+              type="password"
+              validate={(value) => value !== password.current && "The passwords do not match"}
+              error={errors?.confirmPassword?.message}
+            />
+            <InputForm
+              options={[
+                { id: 1, label: "User", value: "user", role: "role" },
+                { id: 2, label: "Agent", value: "agent", role: "role" },
+              ]}
+              type="radio"
+              style="form-radio"
+              id="role"
+              register={register}
+              validate={{ required: "Role must be checked" }}
+              error={errors?.role?.message}
+            />
+          </>
         )}
       </div>
 

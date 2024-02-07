@@ -1,5 +1,7 @@
 // import { useState } from 'react'
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import path from "@/utils/path";
 import { AboutUs, Home, Layout, OurAgent, Properties, Search } from "@/pages/public";
 function App() {
@@ -14,6 +16,7 @@ function App() {
           <Route path={path.ABOUT_US} element={<AboutUs />} />
         </Route>
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

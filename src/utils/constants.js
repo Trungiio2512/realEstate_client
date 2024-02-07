@@ -30,5 +30,5 @@ export const navigations = [
 
 export const TYPE_SIGN_LOGIN = {
   LOGIN: "Login",
-  SIGNIN: "Signin",
+  REGISTER: "register",
 };

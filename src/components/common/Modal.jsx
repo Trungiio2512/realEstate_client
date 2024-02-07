@@ -53,7 +53,7 @@ function Modal({
         <div
           className={`${
             closesing ? "animate-scale-down-center" : "animate-scale-up-center"
-          } bg-white m-auto max-w-[700px] w-full mx-5 p-[30px] relative overflow-y-auto rounded-md`}
+          } bg-white m-5 max-w-[400px] max-h-[650px] w-full p-[30px] relative overflow-y-auto  rounded-md`}
           ref={containerRef}>
           <Button
             onHanldeClick={handleRequestClose}

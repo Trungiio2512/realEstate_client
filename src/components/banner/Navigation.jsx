@@ -50,7 +50,7 @@ const Navigation = WithRoute(({ location }) => {
         {token ? (
           <Button
             onClick={() => {
-              setTypeSignLogin(TYPE_SIGN_LOGIN.SIGNIN);
+              setTypeSignLogin(TYPE_SIGN_LOGIN.REGISTER);
               setOpen(!isOpen);
             }}
             type3={location?.pathname === "/"}
