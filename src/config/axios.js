@@ -5,7 +5,7 @@ import toastMes from "./toastify";
 const axiosInstance = axios.create({
   // eslint-disable-next-line no-undef
   baseURL: import.meta.env.VITE_BE_URL,
-  timeout: 1000,
+  timeout: 1000 * 5,
   withCredentials: true,
 });
 
