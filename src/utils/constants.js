@@ -32,3 +32,9 @@ export const TYPE_SIGN_LOGIN = {
   LOGIN: "Login",
   REGISTER: "register",
 };
+export const HEADER = {
+  API_KEY: "x-api-key",
+  CLIENT_ID: "x-client-id",
+  AUTHORIZATION: "authorization",
+  REFRESHTOKEN: "x-token-id",
+};

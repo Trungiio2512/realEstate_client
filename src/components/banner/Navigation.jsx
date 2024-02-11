@@ -12,7 +12,8 @@ import { useUserStore } from "@/store/useUserStore";
 
 const Navigation = WithRoute(({ location }) => {
   const { isOpen, setOpen, setTypeSignLogin } = useAppStore();
-  const { token } = useUserStore();
+  const { token, loggedIn } = useUserStore();
+  console.log(token, loggedIn);
   return (
     <nav
       className={twMerge(
@@ -47,26 +48,29 @@ const Navigation = WithRoute(({ location }) => {
               </NavLink>
             );
           })}
-        {token ? (
-          <Button
-            onClick={() => {
-              setTypeSignLogin(TYPE_SIGN_LOGIN.REGISTER);
-              setOpen(!isOpen);
-            }}
-            type3={location?.pathname === "/"}
-            type1={location?.pathname !== "/"}>
-            Sign In
-          </Button>
+        {!!token && loggedIn ? (
+          <Button type1>Add listing</Button>
         ) : (
-          <Button
-            onClick={() => {
-              setTypeSignLogin(TYPE_SIGN_LOGIN.LOGIN);
-              setOpen(!isOpen);
-            }}
-            type3={location?.pathname === "/"}
-            type1={location?.pathname !== "/"}>
-            Login
-          </Button>
+          <>
+            <Button
+              onClick={() => {
+                setTypeSignLogin(TYPE_SIGN_LOGIN.LOGIN);
+                setOpen(!isOpen);
+              }}
+              type3={location?.pathname === "/"}
+              type1={location?.pathname !== "/"}>
+              Sign in
+            </Button>
+            <Button
+              onClick={() => {
+                setTypeSignLogin(TYPE_SIGN_LOGIN.REGISTER);
+                setOpen(!isOpen);
+              }}
+              type3={location?.pathname === "/"}
+              type1={location?.pathname !== "/"}>
+              Register
+            </Button>
+          </>
         )}
 
         <Modal isOpen={isOpen} onRequestClose={() => setOpen(!isOpen)}>

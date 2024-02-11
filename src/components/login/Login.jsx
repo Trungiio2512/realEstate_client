@@ -2,11 +2,13 @@ import { loginApi, registerApi } from "@/apis/auth";
 import { Button, InputForm } from "@/components";
 import toastMes from "@/config/toastify";
 import { useAppStore } from "@/store/useAppStore";
+import { useUserStore } from "@/store/useUserStore";
 import { TYPE_SIGN_LOGIN } from "@/utils/constants";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 const Login = () => {
-  const { isOpen, setOpen } = useAppStore();
+  const { isOpen, setOpen, typeSignLogin, setTypeSignLogin } = useAppStore();
+  const { setToken, setUser, setLoggedIn } = useUserStore();
   const [loading, setLoading] = useState(false);
 
   const {
@@ -22,8 +24,6 @@ const Login = () => {
     watch: watch_1,
     formState: { errors: errors_1 },
   } = useForm({ mode: "onChange" });
-
-  const { typeSignLogin, setTypeSignLogin } = useAppStore();
 
   const handleChangeType = (type) => {
     if (typeSignLogin === type) {
@@ -44,6 +44,9 @@ const Login = () => {
         toastMes("success", "Login successful");
       }
       reset({ phone: "", password: "" });
+      setToken(res?.metadata?.token);
+      setUser(res?.metadata?.user);
+      setLoggedIn(true);
       setOpen(!isOpen);
     } finally {
       setLoading(false);
@@ -61,6 +64,7 @@ const Login = () => {
         toastMes("success", "Register successful");
       }
       reset_1({ phone: "", password: "", confirmPassword: "" });
+      setTypeSignLogin(TYPE_SIGN_LOGIN.LOGIN);
       setOpen(!isOpen);
     } finally {
       setLoading(false);
